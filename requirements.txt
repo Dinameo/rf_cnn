@@ -6,3 +6,5 @@ scikit-learn
 tqdm
 pillow
 kagglehub
+seaborn
+matplotlib

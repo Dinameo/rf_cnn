@@ -68,12 +68,15 @@ def validation(model, loader, criterion, device):
             correct += predicted.eq(labels).sum().item()
     acc = correct / total
     return running_loss / len(loader), acc
-def save_checkpoint(model, optimizer, epoch, path):
-
+def save_checkpoint(epoch, model, optimizer, train_losses, val_losses, train_accs, val_accs, path):
     checkpoint = {
         "epoch": epoch,
-        "model_state": model.state_dict(),
-        "optimizer_state": optimizer.state_dict()
+        "model": model.state_dict(),
+        "optimizer": optimizer.state_dict(),
+        "train_losses": train_losses,
+        "val_losses": val_losses,
+        "train_accs": train_accs,
+        "val_accs": val_accs
     }
 
     torch.save(checkpoint, path)
@@ -82,10 +85,14 @@ def load_checkpoint(model, optimizer, path, device):
 
     checkpoint = torch.load(path, map_location=device)
 
-    model.load_state_dict(checkpoint["model_state"])
-
-    optimizer.load_state_dict(checkpoint["optimizer_state"])
+    model.load_state_dict(checkpoint["model"])
+    optimizer.load_state_dict(checkpoint["optimizer"])
 
     start_epoch = checkpoint["epoch"]
 
-    return start_epoch
+    train_losses = checkpoint["train_losses"]
+    val_losses = checkpoint["val_losses"]
+    train_accs = checkpoint["train_accs"]
+    val_accs = checkpoint["val_accs"]
+
+    return start_epoch, train_losses, val_losses, train_accs, val_accs
