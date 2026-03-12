@@ -19,7 +19,7 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
         labels = labels.to(device)
 
         # reset gradients
-        optimizer.zero_grad()
+        optimizer.zero_grad(set_to_none=True)
 
         # forward pass
         outputs = model(images)
@@ -33,11 +33,11 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
         # cộng dồn loss
         running_loss += loss.item()
         # tính số lượng dự đoán đúng
-        _, predicted = torch.max(outputs.data, 1)
+        predicted = outputs.argmax(dim=1)
         # cập nhật tổng số mẫu
         total += labels.size(0)
         # cập nhật số mẫu dự đoán đúng
-        correct += predicted.eq(labels.data).sum().item()
+        correct += predicted.eq(labels).sum().item()
     acc = correct / total
     return running_loss / len(loader), acc
 def validation(model, loader, criterion, device):
@@ -61,11 +61,11 @@ def validation(model, loader, criterion, device):
             # cộng dồn loss
             running_loss += loss.item()
             # tính số lượng dự đoán đúng
-            _, predicted = torch.max(outputs.data, 1)
+            predicted = outputs.argmax(dim=1)
             # cập nhật tổng số mẫu
             total += labels.size(0)
             # cập nhật số mẫu dự đoán đúng
-            correct += predicted.eq(labels.data).sum().item()
+            correct += predicted.eq(labels).sum().item()
     acc = correct / total
     return running_loss / len(loader), acc
 def save_checkpoint(model, optimizer, epoch, path):

@@ -33,8 +33,10 @@ IMAGE_SIZE = 224
 EPOCHS = 20
 
 # learning rate
-LEARNING_RATE = 0.001
+LEARNING_RATE = 1e-3
 
+# hệ số weight decay cho optimizer
+WEIGHT_DECAY = 1e-4
 
 # đường dẫn lưu checkpoints
 CHECKPOINT_DIR = "checkpoints"
