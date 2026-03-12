@@ -1,0 +1,91 @@
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from tqdm import tqdm
+
+from config.config import *
+
+def train_one_epoch(model, loader, criterion, optimizer, device):
+    model.train()
+
+    running_loss = 0.0
+    correct = 0
+    total = 0
+
+    for images, labels in tqdm(loader):
+
+        # chuyển dữ liệu sang device (CPU hoặc GPU)
+        images = images.to(device)
+        labels = labels.to(device)
+
+        # reset gradients
+        optimizer.zero_grad()
+
+        # forward pass
+        outputs = model(images)
+
+        # tính loss
+        loss = criterion(outputs, labels)
+        # backpropagation
+        loss.backward()
+        # cập nhật weights
+        optimizer.step()
+        # cộng dồn loss
+        running_loss += loss.item()
+        # tính số lượng dự đoán đúng
+        _, predicted = torch.max(outputs.data, 1)
+        # cập nhật tổng số mẫu
+        total += labels.size(0)
+        # cập nhật số mẫu dự đoán đúng
+        correct += predicted.eq(labels.data).sum().item()
+    acc = correct / total
+    return running_loss / len(loader), acc
+def validation(model, loader, criterion, device):
+    model.eval()
+
+    running_loss = 0.0
+    correct = 0
+    total = 0
+
+    with torch.no_grad():
+        for images, labels in tqdm(loader):
+            # chuyển dữ liệu sang device (CPU hoặc GPU)
+            images = images.to(device)
+            labels = labels.to(device)
+
+            # forward
+            outputs = model(images)
+            # tính loss
+            loss = criterion(outputs, labels)
+
+            # cộng dồn loss
+            running_loss += loss.item()
+            # tính số lượng dự đoán đúng
+            _, predicted = torch.max(outputs.data, 1)
+            # cập nhật tổng số mẫu
+            total += labels.size(0)
+            # cập nhật số mẫu dự đoán đúng
+            correct += predicted.eq(labels.data).sum().item()
+    acc = correct / total
+    return running_loss / len(loader), acc
+def save_checkpoint(model, optimizer, epoch, path):
+
+    checkpoint = {
+        "epoch": epoch,
+        "model_state": model.state_dict(),
+        "optimizer_state": optimizer.state_dict()
+    }
+
+    torch.save(checkpoint, path)
+
+def load_checkpoint(model, optimizer, path):
+
+    checkpoint = torch.load(path)
+
+    model.load_state_dict(checkpoint["model_state"])
+
+    optimizer.load_state_dict(checkpoint["optimizer_state"])
+
+    start_epoch = checkpoint["epoch"]
+
+    return start_epoch
