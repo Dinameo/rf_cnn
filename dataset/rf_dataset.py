@@ -4,7 +4,7 @@ from torchvision import transforms
 from torch.utils.data import DataLoader, random_split
 
 
-def get_dataloaders(path, batch_size, image_size, num_workers, train_split=0.8, seed=42):
+def get_dataloaders(path, batch_size, device, num_workers, train_split=0.8, seed=42):
     # cố định seed
     generator = torch.Generator().manual_seed(seed)
 
@@ -50,8 +50,8 @@ def get_dataloaders(path, batch_size, image_size, num_workers, train_split=0.8, 
         batch_size=batch_size,
         shuffle=True,
         num_workers=num_workers,
-        pin_memory=True,
-        persistent_workers=True
+        pin_memory=(device == "cuda"),
+        persistent_workers=(num_workers > 0)
     )
 
     val_loader = DataLoader(

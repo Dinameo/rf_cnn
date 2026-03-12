@@ -26,6 +26,7 @@ def get_version(path):
 
 
 
+
 def main(resume=False, checkpoint_path=None):
     # prepare
     if checkpoint_path is None:
@@ -40,7 +41,7 @@ def main(resume=False, checkpoint_path=None):
 
 
     # dataset
-    train_loader, val_loader = get_dataloaders(DATASET_PATH, BATCH_SIZE, IMAGE_SIZE, NUM_WORKERS, TRAIN_SPLIT, SEED)
+    train_loader, val_loader = get_dataloaders(DATASET_PATH, BATCH_SIZE, device, NUM_WORKERS, TRAIN_SPLIT, SEED)
     
     # model
     model = RFNet(num_classes=NUM_CLASSES)
@@ -71,7 +72,8 @@ def main(resume=False, checkpoint_path=None):
         start_epoch = load_checkpoint(
             model,
             optimizer,
-            f"{checkpoint_path}/last_checkpoint.pth"
+            f"{checkpoint_path}/last_checkpoint.pth",
+            device
         )
         print(f"- Đã load checkpoint từ {checkpoint_path}: epoch {start_epoch+1}")
 
@@ -95,6 +97,13 @@ def main(resume=False, checkpoint_path=None):
         print(f"Val   Loss: {val_loss:.4f} | Val   Acc: {val_acc:.4f}")
         print("LR: ", optimizer.param_groups[0]["lr"])
 
+        save_checkpoint(
+            model,
+            optimizer,
+            epoch + 1,
+            f"{checkpoint_path}/last_checkpoint.pth"
+        )
+        print("- Đã lưu check_point")
         if (epoch + 1) % SAVE_EVERY == 0:
 
             save_checkpoint(
@@ -103,13 +112,6 @@ def main(resume=False, checkpoint_path=None):
                 epoch + 1,
                 f"{checkpoint_path}/checkpoint_epoch_{epoch+1}.pth"
             )
-            save_checkpoint(
-                model,
-                optimizer,
-                epoch + 1,
-                f"{checkpoint_path}/last_checkpoint.pth"
-            )
-            print("- Đã lưu check_point")
 
         # save best model
         if val_acc > best_acc:
