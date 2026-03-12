@@ -55,4 +55,4 @@ TRAIN_SPLIT = 0.8
 
 
 # số worker cho DataLoader
-NUM_WORKERS = 4
+NUM_WORKERS = 8

@@ -73,6 +73,7 @@
 #             device
 #         )
 #         print(f"- Đã load checkpoint từ {checkpoint_path}: epoch {start_epoch+1}")
+<<<<<<< HEAD
 #     for epoch in range(start_epoch, EPOCHS):
 #         print(f"\nEpoch {epoch+1}/{EPOCHS}")
 #         train_loss, train_acc = train_one_epoch(
@@ -89,7 +90,6 @@
 #             device
 #         )
 #         scheduler.step(val_loss)
-#         print(f"Train Loss: {train_loss:.4f} | Train Acc: {train_acc:.4f}")
 #         print(f"Val   Loss: {val_loss:.4f} | Val   Acc: {val_acc:.4f}")
 #         print("LR: ", optimizer.param_groups[0]["lr"])
 
@@ -117,3 +117,20 @@
 
 # if __name__ == "__main__":
 #     main(resume=True, checkpoint_path="checkpoints/ver9")
+=======
+
+#     for epoch in range(start_epoch, EPOCHS):
+#         print(f"\nEpoch {epoch+1}/{EPOCHS}")
+#         train_loss, train_acc = train_one_epoch(
+#             model,
+#             train_loader,
+#             criterion,
+#             optimizer,
+#             device
+#         )
+#         val_loss, val_acc = validation(
+#             model,
+#             val_loader,
+#             criterion,
+#             device
+#         )
