@@ -2,3 +2,10 @@ dataset/
 dataset/*
 checkpoints/
 checkpoints/*
+
+
+__pycache__/
+*.pyc
+*.pth
+checkpoints/
+.ipynb_checkpoints/
