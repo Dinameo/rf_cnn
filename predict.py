@@ -19,13 +19,15 @@ def predict(model, image, device):
         # lấy nhãn dự đoán có xác suất cao nhất
         pred = torch.argmax(prob, dim=1)
     return pred.item(), prob
-dat_path = "data/images/"
-checkpoint_path = os.path.join(CHECKPOINT_DIR, "ver3", "last_checkpoint.pth")
+dat_path = DATASET_PATH
+checkpoint_path = os.path.join(CHECKPOINT_DIR, "ver1", "rf_cnn_model.pth")
 n_samples = 100
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = RFNet(num_classes=NUM_CLASSES).to(device)
-checkpoint = torch.load(checkpoint_path, map_location=device)
-model.load_state_dict(checkpoint["model"])
+# checkpoint = torch.load(checkpoint_path, map_location=device)
+# model.load_state_dict(checkpoint["model"])
+state_dict = torch.load(checkpoint_path, map_location=device)
+model.load_state_dict(state_dict)
 model.eval()
 transform = transforms.Compose([
     transforms.Grayscale(num_output_channels=1),
