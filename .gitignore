@@ -1,7 +1,5 @@
-<<<<<<< HEAD
-data/
-data/*
-=======
 dataset/
 dataset/*
->>>>>>> 66f2a012b (initial commit)
+
+checkpoints/
+checkpoints/*
