@@ -1,2 +1,4 @@
 dataset/
 dataset/*
+checkpoints/
+checkpoints/*
