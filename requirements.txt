@@ -2,9 +2,20 @@ torch
 torchvision
 numpy
 matplotlib
+<<<<<<< HEAD
+=======
+seaborn
+>>>>>>> 66f2a012b (initial commit)
 scikit-learn
 tqdm
 pillow
 kagglehub
+<<<<<<< HEAD
 seaborn
 matplotlib
+=======
+ipywidgets
+pandas
+opencv-python
+csv
+>>>>>>> 66f2a012b (initial commit)

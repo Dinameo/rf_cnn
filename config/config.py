@@ -1,8 +1,15 @@
 # đường dẫn đến dataset
+<<<<<<< HEAD
 DATASET_PATH = "data/images"
 
 # Kaggle dataset path
 KAGGLE_PATH = "nhanle2001/rf-signal-modulation-classification-dataset"
+=======
+DATASET_PATH = "dataset"
+
+# Kaggle dataset path
+KAGGLE_PATH = "huynhthethien/radarcommunsignaldata2026train"
+>>>>>>> 66f2a012b (initial commit)
 
 # kích thước batch
 BATCH_SIZE = 32
@@ -55,4 +62,8 @@ TRAIN_SPLIT = 0.8
 
 
 # số worker cho DataLoader
+<<<<<<< HEAD
 NUM_WORKERS = 8
+=======
+NUM_WORKERS = 4
+>>>>>>> 66f2a012b (initial commit)
