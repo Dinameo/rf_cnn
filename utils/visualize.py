@@ -1,5 +1,4 @@
 from sklearn.metrics import confusion_matrix
-from collections import Counter
 import seaborn as sns
 from collections import Counter
 
@@ -13,6 +12,10 @@ def plot_loss(train_losses, val_losses, ax):
     ax.legend()
     ax.grid(True)
 def plot_accuracy(train_accs, val_accs, ax):
+    ax.plot(train_accs, label="Train Accuracy")
+    ax.plot(val_accs, label="Val Accuracy")
+
+    ax.set_xlabel("Epoch")
     ax.set_ylabel("Accuracy")
     ax.set_title("Training vs Validation Accuracy")
     ax.legend()
@@ -26,7 +29,12 @@ def plot_confusion_matrix(y_true, y_pred, ax):
     ax.set_ylabel("True")
     ax.set_title("Confusion Matrix")
 
+from collections import Counter
 import matplotlib.pyplot as plt
+
+def plot_distribution_of_dataset(dataset, ax, title="Dataset Distribution"):
+
+    if hasattr(dataset, "indices"):  # nếu là Subset
         targets = [dataset.dataset.targets[i] for i in dataset.indices]
     else:
         targets = dataset.targets
