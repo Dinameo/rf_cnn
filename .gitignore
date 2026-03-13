@@ -1,12 +1,4 @@
-<<<<<<< HEAD
 dataset/
 dataset/*
 checkpoints/
 checkpoints/*
-
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-checkpoints/
-*.pth

@@ -5,12 +5,8 @@ from models.cnn_model import RFNet
 from config.config import *
 import os
 import random
-<<<<<<< HEAD
-from utils.visualize import plot_confusion_matrix, plot_distribution_of_dataset
-=======
 from utils.visualize import plot_confusion_matrix, plot_distribution_of_dataset, create_visualization_figure
 import matplotlib.pyplot as plt
->>>>>>> 66f2a012b (initial commit)
 
 def predict(model, image, device):
     model.eval()
@@ -23,17 +19,15 @@ def predict(model, image, device):
         # lấy nhãn dự đoán có xác suất cao nhất
         pred = torch.argmax(prob, dim=1)
     return pred.item(), prob
-dat_path = "data/images/"
-<<<<<<< HEAD
-checkpoint_path = os.path.join(CHECKPOINT_DIR, "ver9", "last_checkpoint.pth")
-=======
-checkpoint_path = os.path.join(CHECKPOINT_DIR, "ver3", "last_checkpoint.pth")
->>>>>>> 66f2a012b (initial commit)
+dat_path = DATASET_PATH
+checkpoint_path = os.path.join(CHECKPOINT_DIR, "ver1", "rf_cnn_model.pth")
 n_samples = 100
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = RFNet(num_classes=NUM_CLASSES).to(device)
-checkpoint = torch.load(checkpoint_path, map_location=device)
-model.load_state_dict(checkpoint["model"])
+# checkpoint = torch.load(checkpoint_path, map_location=device)
+# model.load_state_dict(checkpoint["model"])
+state_dict = torch.load(checkpoint_path, map_location=device)
+model.load_state_dict(state_dict)
 model.eval()
 transform = transforms.Compose([
     transforms.Grayscale(num_output_channels=1),
@@ -69,11 +63,7 @@ for image, label in samples:
     y_pred.append(pred.item())
 print("Accuracy: {:.2f}%".format(correct_total / n_samples * 100))
 
-<<<<<<< HEAD
-plot_confusion_matrix(y_true, y_pred)
-=======
 fig, ax = create_visualization_figure(row=1, col=1, figsize=(8, 6))
 
 plot_confusion_matrix(y_true, y_pred, ax)
 plt.show()
->>>>>>> 66f2a012b (initial commit)
